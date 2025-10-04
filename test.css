@@ -1,0 +1,58 @@
+/*
+  Baseline Sentinel CSS Stress Test
+*/
+
+/* Modern Layout */
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@supports (grid-template-rows: subgrid) {
+  .grid-container {
+    grid-template-rows: subgrid; /* [Warning] Should offer a comment fix */
+  }
+}
+
+/* Typography */
+h1 {
+  font-family: system-ui;
+  text-wrap: balance; /* [Warning] Should offer a removal fix */
+}
+
+.drop-cap::first-letter {
+  initial-letter: 3; /* [Warning] Should offer a removal fix */
+}
+
+/* Advanced Styling */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(8px); /* [Warning] Should offer a fallback fix */
+}
+
+.card:has(.card-image) {
+  padding: 0; /* [Warning] Should offer a comment fix */
+}
+
+/* Color and Gradients */
+:root {
+  --brand-color: oklch(59.69% 0.154 275.92); /* [Warning] Should offer a comment fix */
+  --mixed-color: color-mix(in srgb, var(--brand-color) 50%, white); /* [Warning] Should offer a comment fix */
+}
+
+/* Scroll and Animation */
+.scroller {
+  scroll-snap-type: x mandatory; /* [Warning] Should offer a removal fix */
+  scroll-behavior: smooth;
+  animation: slide-in 1s ease-out;
+  animation-timeline: view(); /* [Warning] Should offer a removal fix */
+}
+
+@container (min-width: 600px) {
+  .grid-container {
+    grid-template-columns: 1fr 1fr 1fr; /* [Warning] @container is not Baseline */
+  }
+}

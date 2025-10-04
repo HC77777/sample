@@ -1,0 +1,41 @@
+name: Baseline Sentinel
+
+on: [push, pull_request]
+
+jobs:
+  scan:
+    name: Scan for Non-Baseline Features
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout project
+        uses: actions/checkout@v4
+        with:
+          path: project
+
+      - name: Checkout Baseline Sentinel
+        uses: actions/checkout@v4
+        with:
+          repository: haricharanvallem7/baseline-sentinel
+          path: baseline-sentinel
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install and Build
+        run: |
+          cd baseline-sentinel
+          pnpm install
+          pnpm run build
+
+      - name: Run Scan
+        run: |
+          cd baseline-sentinel
+          node packages/action-baseline-sentinel/index.js ../project github
+        continue-on-error: true
